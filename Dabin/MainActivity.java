@@ -1,30 +1,21 @@
-package com.example.caucse.calendar;
+package com.kacau.calendar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
 import java.util.Date;
 import java.util.Calendar;
 
-/**
- * 그리드뷰를 이용해 월별 캘린더를 만드는 방법에 대해 알 수 있습니다.
- *
- * @author Mike
- */
 public class MainActivity extends AppCompatActivity {
 
     TextView monthText;
-    Button monthPrevoius;
-    Button monthNext;
     GridView monthView;
+    MonthAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +23,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         monthText = (TextView) findViewById(R.id.monthText);
-        monthPrevoius = (Button) findViewById(R.id.monthPrevious);
-        monthNext = (Button) findViewById(R.id.monthNext);
         monthView = (GridView) findViewById(R.id.monthView);
 
+        adapter = new MonthAdapter();
+        monthView.setAdapter(adapter);
+
+        monthText.setText(adapter.getCurrentYear()+"년 "+adapter.getCurrentMonth()+"월");
 
 
+        Button monthPrevoius = (Button) findViewById(R.id.monthPrevious);
+        monthPrevoius.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setPreviousMonth();
+                adapter.notifyDataSetChanged();
+
+                monthText.setText(adapter.getCurrentYear()+"년 "+adapter.getCurrentMonth()+"월");
+
+            }
+        });
+
+        Button monthNext = (Button) findViewById(R.id.monthNext);
+        monthNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapter.setNextMonth();
+                adapter.notifyDataSetChanged();
+
+                monthText.setText(adapter.getCurrentYear()+"년 "+adapter.getCurrentMonth()+"월");
+            }
+        });
     }
 
     class MonthAdapter extends BaseAdapter{
@@ -57,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
 
             recalculate();
             resetDayNumbers();
+        }
+
+        public void setPreviousMonth(){
+            calendar.add(Calendar.MONTH, -1);
+
+            recalculate();
+            resetDayNumbers();
+        }
+
+        public void setNextMonth(){
+            calendar.add(Calendar.MONTH,1);
+
+            recalculate();
+            resetDayNumbers();
+        }
+
+        public int getCurrentYear(){
+            return curYear;
+        }
+
+        public int getCurrentMonth(){
+            return curMonth;
         }
 
         public void recalculate(){
@@ -144,7 +181,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+            MonthItemView view = null;
+            if(convertView == null){
+                view = new MonthItemView(getApplicationContext());
+            } else{
+                view = (MonthItemView) convertView;
+            }
+
+            view.setDay(items[position].day);
+
+            return view;
         }
     }
 }

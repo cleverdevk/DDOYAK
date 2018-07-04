@@ -1,4 +1,4 @@
-package com.example.caucse.calendar;
+package com.kacau.calendar;
 
 /**
  * 일자 정보를 담기 위한 클래스 정의
