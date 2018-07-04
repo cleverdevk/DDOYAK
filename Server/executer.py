@@ -13,5 +13,5 @@ class Executer:
 			print("COM 2 is Executed")
 			self.andRaspTCP.sendAll("2\n")
 		else:
-			print("Default Command is Executed")
+			print("Default Command is Executed\nReceived Messsage : %s" % command)
 			self.andRaspTCP.sendAll("Default is executed\n")
