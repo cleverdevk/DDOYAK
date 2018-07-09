@@ -1,34 +1,43 @@
-package com.kacau.calendar;
+package com.example.caucse.calendar;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class MonthItemView extends RelativeLayout {
-    TextView textView;
+public class MonthItemView extends AppCompatTextView{
+    private MonthItem item;
 
     public MonthItemView(Context context) {
         super(context);
 
-        init(context);
+        init();
     }
 
     public MonthItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        init(context);
+        init();
     }
 
-    private void init(Context context){
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.month_item, this, true);
-
-        textView = (TextView) findViewById(R.id.textView);
+    private void init() {
+        setBackgroundColor(Color.WHITE);
     }
 
-    public void setDay(int day){
-        textView.setText(String.valueOf(day));
+
+    public MonthItem getItem() {
+        return item;
+    }
+
+    public void setItem(MonthItem item) {
+        this.item = item;
+
+        int day = item.getDay();
+        if (day != 0) {
+            setText(String.valueOf(day));
+        } else {
+            setText("");
+        }
+
     }
 }

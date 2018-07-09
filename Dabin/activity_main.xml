@@ -1,52 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+    android:background="#ffffffff">
 
     <RelativeLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="#ffffffff">
+        android:layout_height="50dp"
+        android:background="#ff21a4ff">
 
         <Button
-            android:layout_height="wrap_content"
+            android:id="@+id/monthPrevious"
             android:layout_width="46dp"
-            android:background="@android:drawable/ic_media_rew"
-            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:id="@+id/monthPrevious"/>
+            android:background="@android:drawable/ic_media_rew"
+            android:gravity="center_horizontal" />
 
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="200dp"
-            android:gravity="center_horizontal"
             android:id="@+id/monthText"
-            android:textStyle="bold"
-            android:textSize="24dp"
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
             android:text="MonthView"
-            android:layout_centerInParent="true"/>
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
         <Button
-            android:layout_height="wrap_content"
-            android:layout_width="46dp"
-            android:background="@android:drawable/ic_media_ff"
-            android:gravity="center_horizontal"
             android:id="@+id/monthNext"
-            android:layout_alignParentRight="true"/>
-
+            android:layout_width="46dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@android:drawable/ic_media_ff"
+            android:gravity="center_horizontal" />
     </RelativeLayout>
 
     <GridView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="#ffbbbbbb"
         android:id="@+id/monthView"
-        android:verticalSpacing="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88eeeeee"
         android:horizontalSpacing="1dp"
+        android:numColumns="7"
         android:stretchMode="columnWidth"
-        android:numColumns="7"/>
+        android:verticalSpacing="1dp" />
 
+    <Button
+        android:id="@+id/schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickedSchedule"
+        android:text="일정추가하기" />
 </LinearLayout>
