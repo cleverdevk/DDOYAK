@@ -2,13 +2,13 @@ import socket, threading
 import tcpServerThread
  
 class TCPServer(threading.Thread):
-    def __init__(self, commandQueue, HOST, PORT):
+    def __init__(self, commandQueue, HOST, PORT, timeQueue):
         threading.Thread.__init__(self)
  
         self.commandQueue = commandQueue
         self.HOST = HOST
         self.PORT = PORT
-        
+        self.timeQueue = timeQueue
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serverSocket.bind((self.HOST, self.PORT))
         self.serverSocket.listen(1)
@@ -24,7 +24,7 @@ class TCPServer(threading.Thread):
                 self.connections.append(connection)
                 print ("tcp server :: connect :", clientAddress)
     
-                subThread = tcpServerThread.TCPServerThread(self.commandQueue, self.tcpServerThreads, self.connections, connection, clientAddress)
+                subThread = tcpServerThread.TCPServerThread(self.commandQueue, self.tcpServerThreads, self.connections, connection, clientAddress,self.timeQueue)
                 subThread.start()
                 self.tcpServerThreads.append(subThread)
         except:

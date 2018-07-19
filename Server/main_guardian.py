@@ -9,7 +9,7 @@ import time
 commandQueue = Queue()
  
 # init module
-andRaspTCP = tcpServer.TCPServer(commandQueue, "", 35358)
+andRaspTCP = tcpServer.TCPServer(commandQueue, "", 35357)
 andRaspTCP.start()
  
  

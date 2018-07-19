@@ -1,0 +1,63 @@
+import StepClass
+import UltrasonicClass
+import time
+import RPi.GPIO as GPIO
+import os
+from multiprocessing import Process
+import queue
+
+def CheckAlarmTime(input_time):
+	hour = int(input_time[0:2])
+	min = int(input_time[3:])
+	c_hour = int(time.strftime('%H'))
+	c_min = int(time.strftime('%M'))
+	time.sleep(5)
+	if(hour == c_hour and min == c_min):
+		return True
+	else:
+		return False	
+
+def runMotor(alarmTime):
+	sm = StepClass.StepMotor()
+	while True:
+		try:
+			if(CheckAlarmTime(alarmTime)):
+				print("TRUE")
+				sm.step()
+				time.sleep(3)
+				break
+		except KeyboardInterrupt:
+			break
+
+def runUltrasonic():
+	us = UltrasonicClass.Ultrasonic()
+	while True:
+		try:
+			print(us.getDistance())
+			time.sleep(5)
+		except KeyboardInterrupt:
+			break
+			us.Cleanup()
+			
+if __name__ == '__main__':
+	st = StepClass.StepMotor()
+	st.step()
+	st.rstep()
+	
+	proc_ultra = Process(target=runUltrasonic,args=())
+	alarmQueue = queue.Queue()
+	
+	alarmQueue.put("19:34")
+	alarmQueue.put("19:36")
+	alarmQueue.put("19:38")
+
+
+	while True:
+		nextAlarmTime = alarmQueue.get()
+		print(nextAlarmTime)
+		proc_motor = Process(target=runMotor,args=(nextAlarmTime,))
+		proc_motor.start()
+		proc_motor.join()
+
+			
+			

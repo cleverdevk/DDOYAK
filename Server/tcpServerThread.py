@@ -1,9 +1,9 @@
 import socket, threading
  
 class TCPServerThread(threading.Thread):
-    def __init__(self, commandQueue, tcpServerThreads, connections, connection, clientAddress):
+    def __init__(self, commandQueue, tcpServerThreads, connections, connection, clientAddress, timeQueue):
         threading.Thread.__init__(self)
- 
+        self.timeQueue = timeQueue
         self.commandQueue = commandQueue
         self.tcpServerThreads = tcpServerThreads
         self.connections = connections
@@ -23,6 +23,7 @@ class TCPServerThread(threading.Thread):
  
                 print ('tcp server :: client :', data)
                 self.commandQueue.put(data)
+                self.timeQueue.put(data.replace('\n',""))
         except:
             self.connections.remove(self.connection)
             self.tcpServerThreads.remove(self)
