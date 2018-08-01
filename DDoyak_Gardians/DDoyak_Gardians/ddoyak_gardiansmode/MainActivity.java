@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] items = {"ì „í¬ìˆ˜", "ë°•ì§„ì„ ","ê°•ì¸ë°°"};
-        final String[] numbers = {"tel:010-2702-0186","tel:010-9577-6624","tel:010-2776-3521"};
+        String[] items = {"ÀüÈñ¼ö", "¹ÚÁø¼±","°­ÀÎ¹è"};
+        final String[] numbers = {"tel:010-%%%%-%%%%","tel:010-&&&&-&&&&","tel:010-****-****"};
 
         TextView user = (TextView)findViewById(R.id.user);
         TextView textView = (TextView)findViewById(R.id.textView);
