@@ -1,20 +1,4 @@
-Skip to content
- 
-Search or jump to¡¦
 
-Pull requests
-Issues
-Marketplace
-Explore
- @ilene97 Sign out
-0
-0 0 cleverdevk/DDOYAK
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights
-DDOYAK/DDoyak_Gardians/ddoyak_gardians/MainActivity.java
-a421391  14 days ago
-@ilene97 ilene97 Gardians Mode_first
-     
-48 lines (35 sloc)  1.67 KB
 package com.example.ilene.ddoyak_gardians;
 
 import android.content.Intent;
@@ -63,16 +47,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-¨Ï 2018 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-API
-Training
-Shop
-Blog
-About
-Press h to open a hovercard with more details.
