@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.androidtown.alarm_real.MainActivity"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <Button
+            android:id="@+id/setAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="아침 복용 알람 설정"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/setTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="아침 복용 시간 선택"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/setTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/setAlarm2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="점심 복용 알람 설정"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/setTime2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="점심 복용 시간 선택"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/setTimeTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAlignment="textEnd"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
