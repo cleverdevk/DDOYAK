@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDOYAK</title>
+<style>
+body {
+	background-color: white;
+}
+h1 {
+	color: lightblue;
+	text-align: center;
+}
+p {
+	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {background-color:#f5f5f5;}
+
+</style>
+</head>
+
+<body>
+<h1>LIST</h1>
+
+	<?php
+
+	$servername = "localhost";
+	$username = "USERNAME";
+	$password = "PASSWORD";
+	$dbname = "DB_NAME";
+
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	}
+
+	// show all data;
+	$sql = "SELECT * FROM user_list";
+	$result = $conn->query($sql);
+	if($result->num_rows > 0) {
+		// output data of each row
+		echo "<table>";
+		echo "<tr><th>Name</th><th>Morning</th><th>Lunch</th><th>Evening</th></tr>";
+		while($row = $result->fetch_assoc()) {
+			echo "<tr><td>" . $row["Name"] . "</td><td>" . $row["Morning"] . "</td><td>" . $row["Lunch"] . "</td><td>" . $row["Evening"] . "</td></tr>";
+		}
+		echo "</table>";
+	} else {
+		echo "0 results";
+	}
+	$conn->close();
+	?>
+
+</body>
+</html>
