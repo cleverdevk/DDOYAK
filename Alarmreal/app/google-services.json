@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "972534385732",
+    "firebase_url": "https://alarmreal-9a55c.firebaseio.com",
+    "project_id": "alarmreal-9a55c",
+    "storage_bucket": "alarmreal-9a55c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972534385732:android:43634496ca639002",
+        "android_client_info": {
+          "package_name": "org.androidtown.alarm_real"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972534385732-i7vafj4gfhdjid954mhsb5jueo1en4qt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.alarm_real",
+            "certificate_hash": "7fb7586a2cf18d3bf816115bd9e8af680eb31a4a"
+          }
+        },
+        {
+          "client_id": "972534385732-d49eq86ehjtd4cifttas4l0c5mdlfi7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj5UjAAV3IpeyMKD_DKTWiBFj_JyzEyC0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972534385732-d49eq86ehjtd4cifttas4l0c5mdlfi7k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

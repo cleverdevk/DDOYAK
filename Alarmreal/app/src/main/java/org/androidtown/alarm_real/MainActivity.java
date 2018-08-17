@@ -8,12 +8,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendar_time;
     AlarmManager alarmManager;
     PendingIntent servicePending;
+
+    //realtime database에 넣는 부분
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference Morningtime_Ref = database.getReference("MorningTime: ");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +99,24 @@ public class MainActivity extends AppCompatActivity {
                 new DatePickerDialog(MainActivity.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH), calendar_time.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
         updateTextView();
 
+        // Read from the database
+        Morningtime_Ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
     }
 
     public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
@@ -140,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(),servicePending);
 
         Toast.makeText(getBaseContext(),"아침 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
+        Morningtime_Ref.setValue(calendar_time.get(Calendar.HOUR_OF_DAY)+":"+calendar_time.get(Calendar.MINUTE));
     }
 
     void setAlarm2(){
