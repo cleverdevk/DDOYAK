@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         items.add("jinjin");
         items.add("bimbin");
         numbers.add("010-9577-6624");
-        numbers.add("010-2239-5719");
+        numbers.add("010-3791-2904");
 
 
         final ArrayAdapter adapter = new PatientAdapter(this, android.R.layout.simple_list_item_single_choice,items);

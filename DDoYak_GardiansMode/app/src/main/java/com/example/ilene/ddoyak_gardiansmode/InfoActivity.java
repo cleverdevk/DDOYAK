@@ -34,15 +34,13 @@ public class InfoActivity extends AppCompatActivity{
         Intent intent = getIntent();
         name.setText(intent.getStringExtra("name"));
         number.setText(intent.getStringExtra("number"));
-        final String thisNumber = intent.getStringExtra("callButton");
+        final String thisNumber = intent.getStringExtra("number");
 
         ImageButton callButton = (ImageButton)findViewById(R.id.callButton);
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        Intent callIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(thisNumber));
-                        startActivity(callIntent);
-
+                        startActivity(new Intent("android.intent.action.DIAL",Uri.parse("tel:"+thisNumber)));
             }
 
         });

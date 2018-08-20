@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ilene.ddoyak_gardiansmode">
+    package="com.example.ilene.splashsrc">
 
     <application
         android:allowBackup="true"
@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".SplashActivity"
+
+        <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -21,16 +21,13 @@
         </activity>
 
         <activity
-            android:name=".MainActivity">
+            android:name=".HomeActivity">
         </activity>
 
         <activity
-            android:name=".InfoActivity">
+            android:name=".DDoyakActivity">
         </activity>
 
     </application>
-
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
 </manifest>
