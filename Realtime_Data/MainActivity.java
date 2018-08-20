@@ -1,5 +1,6 @@
 package com.example.caucse.asd;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
     Button submit_btn;
     Button add_btn;
     Button delete_btn;
+    Button list_btn;
     EditText name_text,frequency_text;
-
+    Intent intent;
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Medicine List");
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        intent = new Intent(this, DataList.class);
 
         name_text = (EditText) findViewById(R.id.name_edit);
         frequency_text = (EditText) findViewById(R.id.frequency_edit);
@@ -71,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //List 보기
+        list_btn = (Button) findViewById(R.id.listview);
+        list_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intent);
+            }
+        });
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -93,11 +106,4 @@ public class MainActivity extends AppCompatActivity {
         User user = new User(name,frequency);
         myRef.child(userId).setValue(user);
     }
-
-
-
-
-
-
-
 }
