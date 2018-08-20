@@ -29,6 +29,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         try{
             intent = new Intent(context, MainActivity.class);
+
+
             pendingIntent = PendingIntent.getActivity(context,111,intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent2 = PendingIntent.getActivity(context, 121, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent.send();

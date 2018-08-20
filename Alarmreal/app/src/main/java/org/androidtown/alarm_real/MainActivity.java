@@ -47,15 +47,27 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendar_time;
     AlarmManager alarmManager;
     PendingIntent servicePending;
+    Button select_alarm_times;
+    //SQLiteDatabase sqLiteDatabase;
 
     //realtime database에 넣는 부분
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference Morningtime_Ref = database.getReference("MorningTime: ");
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String time1 = simpleDateFormat.toString();
+        String user_id = "heesu";
+
+        //dbhelper oncreate바깥에 두면 오류남
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "ALARMTIMES.db",null,1);
+        //db의 모든 데이터 출력
+        final TextView result = (TextView)findViewById(R.id.result);
+        select_alarm_times = (Button)findViewById(R.id.select_data);
 
         //아침복용
         set_alarm_btn = (Button) findViewById(R.id.setAlarm);
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         pick_time_btn2 = (Button) findViewById(R.id.setTime2);
         textView2 = (TextView) findViewById(R.id.setTimeTextView2);
 
+        //alarmManager, calendar_time initialize
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         calendar_time = Calendar.getInstance();
 
@@ -99,7 +112,27 @@ public class MainActivity extends AppCompatActivity {
                 new DatePickerDialog(MainActivity.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH), calendar_time.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
+        //db 조회해서 데이터 모두 띄우는 버튼
+        select_alarm_times.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"데이터조회",Toast.LENGTH_SHORT);
+                Log.d("TAG", "onClick: select_alarm_times clicked");
+                //dbHelper.onCreate(sqLiteDatabase);
+
+                //insert 로 data를 삽입한 거 같은데 안나옴??!
+                //dbHelper.insert("gg","two");    //no such column 이라고
+                Log.d("DATA_INSERTION", "onClick: datainsertion success!");
+                result.setText(dbHelper.getAllData());
+                Log.d("TAG", "onClick: get all data successed");
+            }
+        });
+
+
+
         updateTextView();
+        updateTextView2();
 
         // Read from the database
         Morningtime_Ref.addValueEventListener(new ValueEventListener() {
@@ -117,8 +150,36 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
+
     }
 
+    //setAlarm 알람 설정 버튼 누르면 intent, pendingintent 만들고 해당 시간까지 대기
+    void setAlarm1(){
+        Intent intent = new Intent(this,AlarmReceiver.class);
+        servicePending = PendingIntent.getBroadcast(MainActivity.this, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(),servicePending);
+
+        Toast.makeText(getBaseContext(),"아침 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
+        Morningtime_Ref.setValue(calendar_time.get(Calendar.HOUR_OF_DAY)+":"+calendar_time.get(Calendar.MINUTE));
+        String morn_time = calendar_time.get(Calendar.HOUR_OF_DAY)+":"+calendar_time.get(Calendar.MINUTE);
+
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), "ALARMTIMES.db",null,1);
+        dbHelper.insert("morning", morn_time);
+    }
+
+    void setAlarm2(){
+        Intent intent = new Intent(this,AlarmReceiver.class);
+        servicePending = PendingIntent.getBroadcast(MainActivity.this, 121, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(),servicePending);
+
+        Toast.makeText(getBaseContext(),"점심 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
+        String lunch_time = calendar_time.get(Calendar.HOUR_OF_DAY)+":"+calendar_time.get(Calendar.MINUTE);
+        DBHelper dbHelper = new DBHelper(getApplicationContext(), "ALARMTIMES.db",null,1);
+        dbHelper.insert("lunch", lunch_time);
+
+    }
+
+    //출력 형식 설정
     public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
     //복용 날짜(year, month, day)를 설정
@@ -132,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             //updateTextView2();
         }
     };
-
 
     //복용 시간(hh,mm)을 설정
     TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -159,21 +219,12 @@ public class MainActivity extends AppCompatActivity {
         textView2.setText(simpleDateFormat.format(calendar_time.getTime()));
     }
 
-    //setAlarm 알람 설정 버튼 누르면 intent, pendingintent 만들고 해당 시간까지 대기
-    void setAlarm1(){
-        Intent intent = new Intent(this,AlarmReceiver.class);
-        servicePending = PendingIntent.getBroadcast(MainActivity.this, 111, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(),servicePending);
 
-        Toast.makeText(getBaseContext(),"아침 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
-        Morningtime_Ref.setValue(calendar_time.get(Calendar.HOUR_OF_DAY)+":"+calendar_time.get(Calendar.MINUTE));
-    }
 
-    void setAlarm2(){
-        Intent intent = new Intent(this,AlarmReceiver.class);
-        servicePending = PendingIntent.getBroadcast(MainActivity.this, 121, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(),servicePending);
+    /**
+     *
+     * DB관련 테스트
+     */
 
-        Toast.makeText(getBaseContext(),"점심 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
-    }
+
 }
