@@ -13,19 +13,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     Button submit_btn;
     Button add_btn;
+    Button delete_btn;
     EditText name_text,frequency_text;
+
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Medicine List");
-    DatabaseReference secRef;
-    int cnt = 2;
+
+    int cnt = 1;
 
 
     @Override
@@ -36,12 +37,11 @@ public class MainActivity extends AppCompatActivity {
         name_text = (EditText) findViewById(R.id.name_edit);
         frequency_text = (EditText) findViewById(R.id.frequency_edit);
 
-
         submit_btn = (Button) findViewById(R.id.submit);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewUser("1번",String.valueOf(name_text.getText()),String.valueOf(frequency_text.getText()));
+                writeNewUser(cnt+"T",String.valueOf(name_text.getText()),String.valueOf(frequency_text.getText()));
                 submit_btn.setClickable(false);
                 add_btn.setClickable(true);
             }
@@ -52,12 +52,22 @@ public class MainActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 secRef= myRef.child(cnt+"번");
-                 Map<String,Object> Updates= new HashMap<>();
-                 Updates.put("name",String.valueOf(name_text.getText()));
-                 Updates.put("frequency",String.valueOf(frequency_text.getText()));
-                 secRef.updateChildren(Updates);
+                writeNewUser(cnt+"T",String.valueOf(name_text.getText()),String.valueOf(frequency_text.getText()));
+                // myRef=myRef.child(cnt+"번");
+                 //Map<String,Object> Updates= new HashMap<>();
+                // Updates.put("name",String.valueOf(name_text.getText()));
+                // Updates.put("frequency",String.valueOf(frequency_text.getText()));
+                 //myRef.updateChildren(Updates);
                  cnt++;
+            }
+        });
+
+        delete_btn = (Button) findViewById(R.id.delete_btn);
+        delete_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myRef.child(String.valueOf(name_text.getText())).removeValue();
+                cnt--;
             }
         });
 
@@ -83,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
         User user = new User(name,frequency);
         myRef.child(userId).setValue(user);
     }
+
+
+
+
+
 
 
 }
