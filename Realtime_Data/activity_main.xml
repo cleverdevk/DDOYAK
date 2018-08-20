@@ -69,4 +69,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DELETE" />
+
+    <Button
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LIST" />
 </LinearLayout>
