@@ -18,15 +18,15 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button submit_btn;
-    Button add_btn;
-    Button delete_btn;
-    Button list_btn;
-    EditText name_text,frequency_text;
-    Intent intent;
+    private Button submit_btn;
+    private Button add_btn;
+    private Button delete_btn;
+    private Button list_btn;
+    private EditText name_text,frequency_text;
+    private Intent intent;
     // Write a message to the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Medicine List");
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("Medicine List");
 
     int cnt = 1;
 
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 writeNewUser(cnt+"T",String.valueOf(name_text.getText()),String.valueOf(frequency_text.getText()));
                 submit_btn.setClickable(false);
                 add_btn.setClickable(true);
+                cnt++;
             }
         });
 
@@ -59,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 writeNewUser(cnt+"T",String.valueOf(name_text.getText()),String.valueOf(frequency_text.getText()));
                 // myRef=myRef.child(cnt+"번");
-                 //Map<String,Object> Updates= new HashMap<>();
+                //Map<String,Object> Updates= new HashMap<>();
                 // Updates.put("name",String.valueOf(name_text.getText()));
                 // Updates.put("frequency",String.valueOf(frequency_text.getText()));
-                 //myRef.updateChildren(Updates);
-                 cnt++;
+                //myRef.updateChildren(Updates);
+                cnt++;
             }
         });
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //List 보기
+       //List 보기
         list_btn = (Button) findViewById(R.id.listview);
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
