@@ -28,6 +28,10 @@
             android:name=".DDoyakActivity">
         </activity>
 
+        <activity
+            android:name=".ScheduleActivity">
+        </activity>
+
     </application>
 
 </manifest>

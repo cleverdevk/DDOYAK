@@ -37,9 +37,9 @@ public class HomeActivity extends AppCompatActivity{
         scheduleButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(HomeActivity.this, "스케줄 추가",Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(getApplicationContext(),nextActivity.class);
-                //startActivity(intent);
+                Toast.makeText(HomeActivity.this, "스케줄 관리",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),ScheduleActivity.class);
+                startActivity(intent);
             }
         });
 
