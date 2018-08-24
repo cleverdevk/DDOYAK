@@ -1,10 +1,14 @@
 package com.example.caucse.ddoyak;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +31,12 @@ public class MedicineInfo extends AppCompatActivity {
     private int onedayNum;
     private int dayNum;
 
-    static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference MediRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_info);
 
-        MediRef = database.getReference("medicineInfo");
+        final DBHelper dbHelper = new DBHelper(getApplicationContext(), "DB.db",null,1);
 
         oneday = (TextView) findViewById(R.id.oneday);
         day = (TextView) findViewById(R.id.day);
@@ -88,20 +89,20 @@ public class MedicineInfo extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeNewMedicine(onedayNum,dayNum);
                 Toast toast = Toast.makeText(getApplicationContext(), "약 정보를 저장했습니다.", Toast.LENGTH_SHORT);
                 toast.show();
                 Intent intent = new Intent(MedicineInfo.this, AlarmSetting.class);
                 intent.putExtra("info",info.getText().toString());
-                intent.putExtra("day",onedayNum);
+                intent.putExtra("oneday",onedayNum);
+                intent.putExtra("day",dayNum);
+
                 startActivity(intent);
-                finish();
+
+                for(int i = 0; i< onedayNum * dayNum; i++) {
+                    dbHelper.insert("noname", "yyyy#MM#dd#hh#mm");
+                }
+                Log.d("DATA_INSERTION", "onClick: datainsertion success!");
             }
         });
-    }
-
-    private void writeNewMedicine(int oneday, int day){
-        Medicine medicine=new Medicine(oneday, day);
-        MediRef.child(info.getText().toString()).setValue(medicine);
     }
 }
