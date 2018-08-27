@@ -6,17 +6,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AlarmSetting">
 
-    <!--<ListView
+    <ListView
         android:id="@+id/alarmList"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="242dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="57dp"
         android:divider="@color/colorPrimary"
-        android:dividerHeight="1.5dp" />-->
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1.5dp" />
 
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -28,17 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true" />
-    </ScrollView>
-
-    <!--<Button
-        android:id="@+id/remove_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="250dp"
-        android:text="삭제" />-->
+    </ScrollView>-->
 
     <Button
         android:id="@+id/save_select_data"

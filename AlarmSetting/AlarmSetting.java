@@ -2,9 +2,7 @@ package com.example.caucse.ddoyak;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -13,30 +11,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class AlarmSetting extends AppCompatActivity{
 
     TimePicker timePicker;
 
-    //Button remove_data_btn;
     Button save_data_btn;
     Button finish_setting_btn;
-    TextView result;
-    TextView tv1;
+    TextView textView;
 
     AlarmManager alarmManager;
     Calendar calendar_time;
 
-    private int hour, min;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     static DatabaseReference MediRef;
-    private int num;
+
+    private int hour;
+    private int min;
+    private int num=1;
     private int count = 0;
     public int sqlite_id=1;
 
@@ -55,6 +55,9 @@ public class AlarmSetting extends AppCompatActivity{
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         calendar_time = Calendar.getInstance();
 
+        final ListView listView = (ListView) findViewById(R.id.alarmList);
+        final ArrayList<Time> data = new ArrayList<>();
+
         new DatePickerDialog(AlarmSetting.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH),calendar_time.get(Calendar.DAY_OF_MONTH)).show();
 
         Intent intent =getIntent();
@@ -63,11 +66,9 @@ public class AlarmSetting extends AppCompatActivity{
         dayNum = intent.getStringExtra("day");
 
         MediRef = database.getReference("DOSE");
-        num = 0;
 
-        result = (TextView) findViewById(R.id.get_all_data);
-        tv1 = (TextView) findViewById(R.id.textView);
-        updateTV();
+        textView = (TextView) findViewById(R.id.textView);
+        textView.setText(num+"번째 알람 설정");
 
         //데이터 저장버튼
         save_data_btn = (Button)findViewById(R.id.save_select_data);
@@ -75,15 +76,21 @@ public class AlarmSetting extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 timePicker = (TimePicker)findViewById(R.id.timePicker);
+
                 calendar_time.set(Calendar.HOUR_OF_DAY,timePicker.getHour());
                 calendar_time.set(Calendar.MINUTE, timePicker.getMinute());
                 calendar_time.set(Calendar.SECOND,0);
 
-                setAlarm();
-                updateTV();
+                hour= calendar_time.get(Calendar.HOUR_OF_DAY);
+                min = calendar_time.get(Calendar.MINUTE);
+                Time time = new Time(hour, min);
+                data.add(time);
 
-                result.setText(dbHelper.getAllData());
-                Log.d("TAG", "onClick: get all data successed");
+                ListViewAdapter adapter = new ListViewAdapter(AlarmSetting.this, R.layout.item, data);
+                listView.setAdapter(adapter);
+
+                setAlarm();
+                textView.setText(num+"번째 알람 설정");
             }
         });
 
@@ -106,22 +113,23 @@ public class AlarmSetting extends AppCompatActivity{
         int M = Integer.parseInt(dayNum);
 
         PendingIntent[] servicePendings = new PendingIntent[100];
-        servicePendings[count]=PendingIntent.getBroadcast(AlarmSetting.this,count, intent, PendingIntent.FLAG_UPDATE_CURRENT );
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(), servicePendings[count]);
+        servicePendings[count+1]=PendingIntent.getBroadcast(AlarmSetting.this, count+1, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(), servicePendings[count+1]);
         Log.d("TAG", "setAlarm: 보냅니당");
-        Toast.makeText(getBaseContext(),++num+"회 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
-        String time = simpleDateFormat.format(calendar_time.getTime());
+
+        Toast.makeText(getBaseContext(),(num++)+"회 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
         DBHelper dbHelper = new DBHelper(getApplicationContext(), "DB.db",null,1);
 
-        //for(int k=0;k<M;k++)
-        //    dbHelper.update(info, time, sqlite_id + k*N);
-        dbHelper.update(info, time, sqlite_id);
-        sqlite_id++;
-        //count++;
-    }
+        int dayOfMonth = calendar_time.get(Calendar.DAY_OF_MONTH);
+        for(int k=0;k<M;k++) {
+            calendar_time.set(Calendar.DAY_OF_MONTH,dayOfMonth++);
+            String time = simpleDateFormat.format(calendar_time.getTime());
+            dbHelper.update(info, time, sqlite_id + k * N);
+        }
 
-    private void updateTV(){
-        tv1.setText(simpleDateFormat.format(calendar_time.getTime()));
+        calendar_time.set(Calendar.DAY_OF_MONTH,dayOfMonth-M);
+        sqlite_id++;
+        count++;
     }
 
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
