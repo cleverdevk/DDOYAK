@@ -39,13 +39,15 @@ class SocketServer:
         elif(self.port == 35358):
             print("[GUARDIAN SERVER] Sending Thread is Executing..")
         while True:
-            pass
-    #        sys.stdout.write(">>")
-    #        data = input()
-    #        data = data.encode("utf-8") 
-    #        data = str(data).split("b'",1)[1].rsplit("'",1)[0]
-    #        data = str(data)+ '\n' 
-    #        andRaspTCP.sendAll(data)
+            try:
+                #sys.stdout.write(">>")
+                data = input()
+                data = data.encode("utf-8") 
+                data = str(data).split("b'",1)[1].rsplit("'",1)[0]
+                data = str(data)+ '\n' 
+                andRaspTCP.sendAll(data)
+            except EOFError:
+                pass
         
     def run(self):
         self.andRaspTCP.start()
