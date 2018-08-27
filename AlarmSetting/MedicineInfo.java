@@ -93,10 +93,11 @@ public class MedicineInfo extends AppCompatActivity {
                 toast.show();
                 Intent intent = new Intent(MedicineInfo.this, AlarmSetting.class);
                 intent.putExtra("info",info.getText().toString());
-                intent.putExtra("oneday",onedayNum);
-                intent.putExtra("day",dayNum);
+                intent.putExtra("oneday",String.valueOf(onedayNum));
+                intent.putExtra("day",String.valueOf(dayNum));
 
                 startActivity(intent);
+                dbHelper.delete();
 
                 for(int i = 0; i< onedayNum * dayNum; i++) {
                     dbHelper.insert("noname", "yyyy#MM#dd#hh#mm");

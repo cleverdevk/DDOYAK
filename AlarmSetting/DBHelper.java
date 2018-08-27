@@ -77,5 +77,4 @@ public class DBHelper extends SQLiteOpenHelper {
             MediRef.child(info).child(String.valueOf(i++)).setValue(cursor.getString(2));
         }
     }
-
 }

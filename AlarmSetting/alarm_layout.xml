@@ -30,7 +30,7 @@
             android:layout_alignParentStart="true" />
     </ScrollView>
 
-    <Button
+    <!--<Button
         android:id="@+id/remove_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,15 +38,14 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="100dp"
         android:layout_marginTop="250dp"
-        android:text="삭제" />
+        android:text="삭제" />-->
 
     <Button
         android:id="@+id/save_select_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/remove_data"
-        android:layout_marginEnd="100dp"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
         android:text="저장" />
 
     <TimePicker
