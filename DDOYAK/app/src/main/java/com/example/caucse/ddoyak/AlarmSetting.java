@@ -75,22 +75,29 @@ public class AlarmSetting extends AppCompatActivity{
         save_data_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                timePicker = (TimePicker)findViewById(R.id.timePicker);
+                if(count<Integer.parseInt(onedayNum)) {
+                    timePicker = (TimePicker) findViewById(R.id.timePicker);
 
-                calendar_time.set(Calendar.HOUR_OF_DAY,timePicker.getHour());
-                calendar_time.set(Calendar.MINUTE, timePicker.getMinute());
-                calendar_time.set(Calendar.SECOND,0);
+                    calendar_time.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                    calendar_time.set(Calendar.MINUTE, timePicker.getMinute());
+                    calendar_time.set(Calendar.SECOND, 0);
 
-                hour= calendar_time.get(Calendar.HOUR_OF_DAY);
-                min = calendar_time.get(Calendar.MINUTE);
-                Time time = new Time(hour, min);
-                data.add(time);
+                    hour = calendar_time.get(Calendar.HOUR_OF_DAY);
+                    min = calendar_time.get(Calendar.MINUTE);
+                    Time time = new Time(hour, min);
+                    data.add(time);
 
-                ListViewAdapter adapter = new ListViewAdapter(AlarmSetting.this, R.layout.item, data);
-                listView.setAdapter(adapter);
+                    ListViewAdapter adapter = new ListViewAdapter(AlarmSetting.this, R.layout.item, data);
+                    listView.setAdapter(adapter);
 
-                setAlarm();
-                textView.setText(num+"번째 알람 설정");
+                    setAlarm();
+                    if(num<=Integer.parseInt(onedayNum))
+                        textView.setText(num + "번째 알람 설정");
+                    else
+                        textView.setText("<알람설정 완료>");
+                }
+                else
+                    Toast.makeText(getBaseContext(), "알람설정 완료!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,7 +112,7 @@ public class AlarmSetting extends AppCompatActivity{
     }
 
     //출력 형식 설정
-    public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy#MM#dd#hh#mm");
+    public SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy#MM#dd#HH#mm");
 
     void setAlarm() {
         Intent intent = new Intent(this,AlarmReceiver.class);
