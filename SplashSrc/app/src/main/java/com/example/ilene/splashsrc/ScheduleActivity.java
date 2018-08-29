@@ -3,13 +3,12 @@ package com.example.ilene.splashsrc;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,9 +16,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ScheduleActivity extends AppCompatActivity{
 
@@ -32,10 +39,18 @@ public class ScheduleActivity extends AppCompatActivity{
     String starttimeTemp;
     String endtimeTemp;
     String scheduleName;
+    String start, end;
+
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("OUTING");
 
     //출력 형식 설정
-    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.mm.dd.E");
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.E");
     public SimpleDateFormat timeFormat = new SimpleDateFormat("aa hh:mm");
+    //전달 형식 설정
+    public SimpleDateFormat dateDatabaseFormat = new SimpleDateFormat("yyyy#MM#dd");
+    public SimpleDateFormat timeDatabaseFormat = new SimpleDateFormat("#HH#mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +92,11 @@ public class ScheduleActivity extends AppCompatActivity{
                         scheduleName = text.getText().toString();
                         text.setText("");
                         scheduleitems.add(new ScheduleInfo(dateTemp, starttimeTemp,endtimeTemp,scheduleName));
+
+                        changeDataFormat();
+                        myRef.child(scheduleName).child("0").setValue("s#"+start);
+                        myRef.child(scheduleName).child("1").setValue("e#"+end);
+
                         myAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
@@ -90,6 +110,22 @@ public class ScheduleActivity extends AppCompatActivity{
             }
         });
 
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d("TAG", "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
 
 
     }
@@ -133,6 +169,21 @@ public class ScheduleActivity extends AppCompatActivity{
     }
     private void setDateTemp(){
         dateTemp = dateFormat.format(calendar.getTime());
+    }
+
+    private void changeDataFormat(){
+        try{
+            Date date = dateFormat.parse(dateTemp);
+            String newdate = dateDatabaseFormat.format(date);
+            date = timeFormat.parse(starttimeTemp);
+            String newtime = timeDatabaseFormat.format(date);
+            start = newdate+newtime;
+            date = timeFormat.parse(endtimeTemp);
+            newtime = timeDatabaseFormat.format(date);
+            end = newdate+newtime;
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
     }
 
 }
