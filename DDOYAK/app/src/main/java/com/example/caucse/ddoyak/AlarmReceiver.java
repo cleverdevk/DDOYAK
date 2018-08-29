@@ -24,7 +24,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Toast.makeText(context, "복용시간 알림",Toast.LENGTH_SHORT).show();
 
         try{
-            intent = new Intent(context, HomeActivity.class);
+            intent = new Intent(context, AlarmSetting.class);
             PendingIntent[] pendingIntent = new PendingIntent[100];
             pendingIntent[count+1] = PendingIntent.getActivity(context,count+1,intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent[count+1].send();
