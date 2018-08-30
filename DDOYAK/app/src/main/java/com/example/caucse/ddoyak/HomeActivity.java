@@ -27,7 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         alarmButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(HomeActivity.this, "알람 설정",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),MedicineInfo.class);
                 startActivity(intent);
             }
