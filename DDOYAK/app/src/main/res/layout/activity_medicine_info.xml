@@ -49,10 +49,10 @@
         <TextView
             android:id="@+id/background"
             android:layout_width="308dp"
-            android:layout_height="319dp"
+            android:layout_height="370dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="73dp"
+            android:layout_marginBottom="66dp"
             android:background="#b5ffd5e3"
             android:textColor="@android:color/black"
             android:textSize="20dp" />

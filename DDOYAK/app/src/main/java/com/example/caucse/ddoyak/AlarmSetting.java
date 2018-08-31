@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +33,8 @@ public class AlarmSetting extends AppCompatActivity{
     AlarmManager alarmManager;
     Calendar calendar_time;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    static DatabaseReference MediRef;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
 
     private int hour;
     private int min;
@@ -55,8 +57,14 @@ public class AlarmSetting extends AppCompatActivity{
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         calendar_time = Calendar.getInstance();
 
-        final ListView listView = (ListView) findViewById(R.id.alarmList);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         final ArrayList<Time> data = new ArrayList<>();
+
+        final ViewAdapter adapter = new ViewAdapter(getApplicationContext(),data);
+        recyclerView.setAdapter(adapter);
 
         new DatePickerDialog(AlarmSetting.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH),calendar_time.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -64,8 +72,6 @@ public class AlarmSetting extends AppCompatActivity{
         info = intent.getStringExtra("info");
         onedayNum = intent.getStringExtra("oneday");
         dayNum = intent.getStringExtra("day");
-
-        MediRef = database.getReference("DOSE");
 
         textView = (TextView) findViewById(R.id.textView);
         textView.setText(num+"번째 알람 설정");
@@ -86,9 +92,7 @@ public class AlarmSetting extends AppCompatActivity{
                     min = calendar_time.get(Calendar.MINUTE);
                     Time time = new Time(hour, min);
                     data.add(time);
-
-                    ListViewAdapter adapter = new ListViewAdapter(AlarmSetting.this, R.layout.item, data);
-                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
                     setAlarm();
                     if(num<=Integer.parseInt(onedayNum))
@@ -107,9 +111,6 @@ public class AlarmSetting extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 dbHelper.writeNewData(info);
-                Toast.makeText(AlarmSetting.this, "설정이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -136,7 +137,6 @@ public class AlarmSetting extends AppCompatActivity{
             String time = simpleDateFormat.format(calendar_time.getTime());
             dbHelper.update(info, time, sqlite_id + k * N);
         }
-
         calendar_time.set(Calendar.DAY_OF_MONTH,dayOfMonth-M);
         sqlite_id++;
         count++;
