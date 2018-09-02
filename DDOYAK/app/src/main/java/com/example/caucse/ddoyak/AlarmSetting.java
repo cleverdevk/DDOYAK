@@ -13,12 +13,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -111,6 +109,8 @@ public class AlarmSetting extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 dbHelper.writeNewData(info);
+                Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                startActivity(intent);
             }
         });
     }

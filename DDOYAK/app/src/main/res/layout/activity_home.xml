@@ -32,6 +32,7 @@
                     android:layout_height="130dp"
                     android:padding="5dp"
                     android:scaleType="centerCrop"
+                    android:background="@android:color/transparent"
                     app:srcCompat="@drawable/button2"/>
 
                 <ImageButton
