@@ -15,23 +15,25 @@
         android:textSize="40dp"/>
 
     <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/fre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:text="TextView" />
 
-/>
+        />
     </LinearLayout>
 </LinearLayout>

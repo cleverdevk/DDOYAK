@@ -9,6 +9,14 @@
 
 
     <EditText
+        android:id="@+id/child"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Child" />
+
+    <EditText
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,21 +40,23 @@
         android:inputType="textPersonName"
         android:hint="day" />
 
+
+
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/move"
-        android:layout_width="173dp"
-        android:layout_height="wrap_content"
-        android:text="move"/>
+        <Button
+            android:id="@+id/move"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:text="move"/>
 
-    <Button
-        android:id="@+id/add"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="add" />
-</LinearLayout>
+        <Button
+            android:id="@+id/add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="add" />
+    </LinearLayout>
 </LinearLayout>

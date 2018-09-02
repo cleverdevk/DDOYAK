@@ -1,15 +1,20 @@
-package com.example.asdf;
+package com.example.caucse.homesweethome;
 
 public class User {
     public String name;
     public String frequency;
     public String day;
 
+    public User () {
+
+    }
+
     public User(String name, String frequency, String day) {
         this.name = name;
         this.frequency = frequency;
         this.day = day;
     }
+
 
     public String getFrequency() {
         return frequency;

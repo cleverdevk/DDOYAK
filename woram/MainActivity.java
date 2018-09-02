@@ -1,4 +1,4 @@
-package com.example.asdf;
+package com.example.caucse.homesweethome;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,14 +20,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Button move_btn;
     private Button add_btn;
-    private Button ad;
+
+    private Button re_btn;
+
     private EditText name;
     private EditText fre;
     private EditText day;
+    private EditText child;
+    private EditText stime,etime;
 
     // Write a message to the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Schedule");
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("Schedule");
 
     int cnt; // TEST 용
 
@@ -37,18 +41,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         name = (EditText) findViewById(R.id.name);
         fre = (EditText) findViewById(R.id.fre);
         day = (EditText) findViewById(R.id.day);
+        child = (EditText) findViewById(R.id.child);
+
+   
         final Intent intent = new Intent(this, ShowRecycler.class);
 
-        ad = (Button) findViewById(R.id.re);
-        ad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                User user = new User(String.valueOf(name.getText()),String.valueOf(fre.getText()),String.valueOf(day.getText()));
-            }
-        });
 
         move_btn = (Button) findViewById(R.id.move);
         move_btn.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-             //writeNewUser method 를 쓰기 위해 수정 함
+                //writeNewUser method 를 쓰기 위해 수정 함
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
                 Log.d("TAG", "Value is: " + map);
             }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void writeNewUser (String name, String day, String frequency){
         User user = new User(name,day, frequency);
-        myRef.child("cold").setValue(user);
+        myRef.child(String.valueOf(child.getText())).setValue(user);
     }
 
 }

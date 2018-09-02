@@ -1,4 +1,4 @@
-package com.example.asdf;
+package com.example.caucse.homesweethome;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -28,31 +28,31 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> { //ì
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+
         if (holder instanceof ItemViewHolder){
             User user = users.get(position);
-        ((ItemViewHolder) holder).name.setText(user.getName());
-        ((ItemViewHolder) holder).fre.setText(user.getFrequency());
-        ((ItemViewHolder) holder).day.setText(user.getDay());
+            ((ItemViewHolder) holder).name.setText(user.getName());
+            ((ItemViewHolder) holder).fre.setText(user.getFrequency());
+            ((ItemViewHolder) holder).day.setText(user.getDay());
 
+        }
     }
-}
 
     @Override
     public int getItemCount() {
         return users.size();
     }
 
-public class ItemViewHolder extends RecyclerView.ViewHolder {
-    TextView name, fre, day;
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+        TextView name, fre, day;
 
-    public ItemViewHolder(View itemView) {
-        super(itemView);
-        name = itemView.findViewById(R.id.name);
-        fre = itemView.findViewById(R.id.fre);
-        day = itemView.findViewById(R.id.day);
+        public ItemViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.name);
+            fre = (TextView) itemView.findViewById(R.id.fre);
+            day =(TextView)  itemView.findViewById(R.id.day);
+        }
     }
-}
 
 }
-
-
