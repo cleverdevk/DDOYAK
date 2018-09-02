@@ -16,9 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".LIseVIew">
-         </activity>
+        <activity android:name=".ShowRecycler">
+        </activity>
     </application>
 
 </manifest>

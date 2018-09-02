@@ -20,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Button move_btn;
     private Button add_btn;
-    private EditText name,fre;
+    private Button ad;
+    private EditText name;
+    private EditText fre;
+    private EditText day;
 
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
+    DatabaseReference myRef = database.getReference("Schedule");
 
     int cnt; // TEST 용
 
@@ -34,22 +37,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Intent intent = new Intent(this, LIseVIew.class);
+        name = (EditText) findViewById(R.id.name);
+        fre = (EditText) findViewById(R.id.fre);
+        day = (EditText) findViewById(R.id.day);
+        final Intent intent = new Intent(this, ShowRecycler.class);
+
+        ad = (Button) findViewById(R.id.re);
+        ad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = new User(String.valueOf(name.getText()),String.valueOf(fre.getText()),String.valueOf(day.getText()));
+            }
+        });
 
         move_btn = (Button) findViewById(R.id.move);
         move_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                startActivity(intent);
             }
         });
-        startActivity(intent);
+
         add_btn = (Button) findViewById(R.id.add);
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                writeNewUser(String.valueOf(name.getText()),String.valueOf(fre.getText()),String.valueOf(day.getText()));
                 cnt++;
             }
         });
@@ -72,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void writeNewUser (String userId, String name, String frequency){
-        User user = new User(name, frequency);
-        myRef.child(userId).setValue(user);
+    private void writeNewUser (String name, String day, String frequency){
+        User user = new User(name,day, frequency);
+        myRef.child("cold").setValue(user);
     }
 
 }

@@ -1,28 +1,37 @@
 package com.example.asdf;
 
-import com.google.firebase.database.Exclude;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class User {
-    public String frequency;
     public String name;
+    public String frequency;
+    public String day;
 
-
-    public User() {
-
+    public User(String name, String frequency, String day) {
+        this.name = name;
+        this.frequency = frequency;
+        this.day = day;
     }
-    public User(String name, String frequency) {
-        this.frequency=frequency;
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("name",name);
-        result.put("frequency",frequency);
-        return result;
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }
