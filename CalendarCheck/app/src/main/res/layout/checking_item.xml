@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:layout_marginLeft="10dp"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="17dp" />
 
@@ -34,14 +35,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@android:color/holo_orange_light"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/checking_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/checking_time"
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textSize="17dp"
