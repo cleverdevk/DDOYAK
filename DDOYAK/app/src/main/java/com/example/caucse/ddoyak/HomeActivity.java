@@ -17,9 +17,9 @@ public class HomeActivity extends AppCompatActivity {
         takeButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(HomeActivity.this, "복용 현황",Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(getApplicationContext(),nextActivity.class);
-                //startActivity(intent);
+                //Toast.makeText(HomeActivity.this, "복용 현황",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),CalendarMainActivity.class);
+                startActivity(intent);
             }
         });
 
