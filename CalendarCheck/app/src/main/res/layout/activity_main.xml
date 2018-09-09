@@ -20,7 +20,7 @@
             android:textAlignment="gravity"
             android:textSize="14dp"
             android:text="Prev"
-            android:textColor="@color/colorAccent"
+            android:textColor="#cd5c5c"
             android:layout_alignParentLeft="true"
             android:gravity="center"/>
 
@@ -56,8 +56,11 @@
         <com.example.caucse.calendarcheck.GridView
             android:id="@+id/gridView"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:verticalSpacing="1dp" />
+            android:layout_height="wrap_content"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            android:listSelector="#e9967a"
+            android:stretchMode="columnWidth"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/checking_view"

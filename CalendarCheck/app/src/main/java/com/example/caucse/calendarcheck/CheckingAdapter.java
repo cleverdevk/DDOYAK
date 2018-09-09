@@ -62,4 +62,3 @@ public class CheckingAdapter extends RecyclerView.Adapter<CheckingAdapter.Checki
         return data.size();
     }
 }
-

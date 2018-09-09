@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 public class GridView extends android.widget.GridView {
     private OnDataSelectionListener selectionListener;
     GridAdapter adapter;
+    int curYear;
+    int curMonth;
 
     public GridView(Context context) {
         super(context);
@@ -21,8 +23,8 @@ public class GridView extends android.widget.GridView {
         init();
     }
 
-    private void init(){
-        setBackgroundColor(Color.DKGRAY);
+    private void init() {
+        setBackgroundColor(Color.WHITE);
         setVerticalSpacing(1);
         setHorizontalSpacing(1);
         setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
@@ -34,31 +36,33 @@ public class GridView extends android.widget.GridView {
     class OnItemClickAdapter implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            if(adapter != null){
+            if (adapter != null) {
                 adapter.setSelectedPosition(position);
                 adapter.notifyDataSetInvalidated();
             }
 
-            if(selectionListener != null){
-                selectionListener.onDataSelected(parent,view,position,id);
+            if (selectionListener != null) {
+                selectionListener.onDataSelected(parent, view, position, id);
             }
         }
     }
 
-    public void setAdapter(BaseAdapter adapter){
+    public void setAdapter(BaseAdapter adapter) {
         super.setAdapter(adapter);
         this.adapter = (GridAdapter) adapter;
+        //            this.adapter.UpdateImageonCalendar(i);
+        //}
     }
 
-    public BaseAdapter getAdapter(){
+    public BaseAdapter getAdapter() {
         return (BaseAdapter) super.getAdapter();
     }
 
-    public void setOnDataSelectionListener(OnDataSelectionListener listener){
+    public void setOnDataSelectionListener(OnDataSelectionListener listener) {
         this.selectionListener = listener;
     }
 
-    public OnDataSelectionListener getOnDataSelectionListener(){
+    public OnDataSelectionListener getOnDataSelectionListener() {
         return selectionListener;
     }
 }

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,12 +25,14 @@ public class MainActivity extends AppCompatActivity{
     Button next_btn;
 
     GridView gridView;
-    GridAdapter gridAdapter;
+    public static GridAdapter gridAdapter;
 
     RecyclerView checkingView;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<History> data = new ArrayList<>();
+    public static ArrayList<History> data = new ArrayList<>();
     ArrayList<History> checkingData = new ArrayList<>();
+    public static ArrayList<History> showingData = new ArrayList<>();
+
     CheckingAdapter adapter;
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -54,9 +55,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        gridView = (GridView)findViewById(R.id.gridView);
-        gridAdapter = new GridAdapter(getApplicationContext(), R.layout.month_item, "OOX");
-        gridView.setAdapter(gridAdapter);
+        //원래요기
 
         checkingView = (RecyclerView) findViewById(R.id.checking_view);
         checkingView.setHasFixedSize(true);
@@ -93,12 +92,18 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        gridView = (GridView)findViewById(R.id.gridView);
+        gridAdapter = new GridAdapter(getApplicationContext(), R.layout.month_item, "OOX");
+        gridView.setAdapter(gridAdapter);
+
+
         gridView.setOnDataSelectionListener(new OnDataSelectionListener() {
             @Override
             public void onDataSelected(AdapterView parent, View v, int position, long id) {
                 UpdateAdapter(position);
             }
         });
+
 
         month_tv = findViewById(R.id.month_tv);
         setMonthText();
@@ -129,12 +134,16 @@ public class MainActivity extends AppCompatActivity{
         MonthItem item = (MonthItem) gridAdapter.getItem(position);
         curDay = item.getDay();
         checkingData.clear();
+        //showingData.clear();
         for(int i=0;i<count;i++) {
             if (Integer.parseInt(data.get(i).getYear()) == curYear)
                 if (Integer.parseInt(data.get(i).getMonth()) == (curMonth) + 1)
                     if (Integer.parseInt(data.get(i).getDay()) == curDay)
                         checkingData.add(data.get(i));
+        //                showingData.add(data.get(i));
         }
         checkingView.setAdapter(adapter);
     }
+
+
 }
