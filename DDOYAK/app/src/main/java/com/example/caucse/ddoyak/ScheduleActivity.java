@@ -58,15 +58,13 @@ public class ScheduleActivity extends AppCompatActivity {
         final ListAdapter myAdapter = new ListAdapter(getApplicationContext(), scheduleitems);
         scheduleList.setAdapter(myAdapter);
 
-
-        scheduleitems.clear();          //어레이리스트 초기화
         //firebase data 가져오기
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                scheduleitems.clear();          //어레이리스트 초기화
                 for(DataSnapshot outingData : dataSnapshot.getChildren()){                  //블럭 반복
                     String titleData = outingData.getValue().toString();                     //한 블럭 전체 데이터를 한 문자열로 가져옴. ','를 토큰으로 나눠서 저장해야함.
-
                     changeViewData(titleData);
                     scheduleitems.add(new ScheduleInfo(dateTemp, startTemp, endTemp, scheduleTitle));       //어레이리스트에 저장
                 }
@@ -93,23 +91,28 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     private void changeViewData(String data){
-        String[] arrayTemp = data.split(",");
-        scheduleTitle = arrayTemp[0];
-        startTemp = arrayTemp[1];
-        endTemp = arrayTemp[2];
-        dateTemp = arrayTemp[2];
+        try {
+            String[] arrayTemp = data.split(",");
+            scheduleTitle = arrayTemp[0];
+            startTemp = arrayTemp[1];
+            endTemp = arrayTemp[2];
+            dateTemp = arrayTemp[2];
 
-        int idx = scheduleTitle.length();
-        scheduleTitle = scheduleTitle.substring(1,idx);
-        startTemp = startTemp.substring(14,19);
-        endTemp = endTemp.substring(14,19);
-        dateTemp = dateTemp.substring(3,13);
+            int idx = scheduleTitle.length();
+            scheduleTitle = scheduleTitle.substring(1, idx);
+            startTemp = startTemp.substring(14, 19);
+            endTemp = endTemp.substring(14, 19);
+            dateTemp = dateTemp.substring(3, 13);
 
-        startTemp = startTemp.replaceAll("#",":");
-        endTemp = endTemp.replaceAll("#",":");
-        dateTemp = dateTemp.replaceAll("#",".");
+            startTemp = startTemp.replaceAll("#", ":");
+            endTemp = endTemp.replaceAll("#", ":");
+            dateTemp = dateTemp.replaceAll("#", ".");
+        }catch ( java.lang.ArrayIndexOutOfBoundsException e){
+            //예외 발생 무시(리스트 업데이트에 이상 없음)
+        }finally {
+            changeDataFormat();
+        }
 
-        changeDataFormat();
     }
     private void changeDataFormat(){
         try{
@@ -123,6 +126,8 @@ public class ScheduleActivity extends AppCompatActivity {
             endTemp = timeFormat.format(newtime);
         }catch(ParseException e){
             e.printStackTrace();
+        }catch (java.lang.NullPointerException e){
+
         }
     }
 }

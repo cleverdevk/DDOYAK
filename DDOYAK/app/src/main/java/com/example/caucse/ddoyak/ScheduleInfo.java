@@ -13,4 +13,7 @@ public class ScheduleInfo {
     public String getSchedule(){
         return schedule;
     }
+    public String getDate() {return date;}
+    public String getStartTime() {return startTime;}
+    public String getEndTime() {return endTime;}
 }

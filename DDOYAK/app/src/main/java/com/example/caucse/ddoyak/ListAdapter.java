@@ -1,6 +1,8 @@
 package com.example.caucse.ddoyak;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +10,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("OUTING");
 
     //생성자. 표시할 데이터 전달 받음
     private ArrayList<ScheduleInfo> scheduleInfoArrayList;
@@ -18,7 +26,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public ListAdapter(Context context, ArrayList<ScheduleInfo> scheduleitems){
         scheduleInfoArrayList = scheduleitems;
-        sContext = context;
+        this.sContext = context;
     }
 
     //RecyclerView의 item 표시
@@ -36,43 +44,20 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(sContext,"click "+scheduleInfoArrayList.get(getAdapterPosition()).getSchedule(),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(v.getContext(),RemoveItem.class);
+                    intent.putExtra("scheduleName",scheduleInfoArrayList.get(getAdapterPosition()).getSchedule());
+                    intent.putExtra("date",scheduleInfoArrayList.get(getAdapterPosition()).getDate());
+                    intent.putExtra("startTime",scheduleInfoArrayList.get(getAdapterPosition()).getStartTime());
+                    intent.putExtra("endTime",scheduleInfoArrayList.get(getAdapterPosition()).getEndTime());
+                    try {
+                        ((Activity) sContext).finish();
+                    }catch (java.lang.ClassCastException e){
+
+                    }
+                    sContext.startActivity(intent);
                 }
             });
 
-            view.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View v){
-                    /*
-                    final Dialog questionDialog = new Dialog(sContext);
-                    questionDialog.setContentView(R.layout.delete_dialog);
-                    questionDialog.setTitle("일정 삭제");
-                    TextView question = (TextView)questionDialog.findViewById(R.id.question);
-
-                    Button OK = (Button)questionDialog.findViewById(R.id.OK);
-                    OK.setOnClickListener(new Button.OnClickListener(){
-                        @Override
-                        public void onClick(View v){
-                            Toast.makeText(sContext,"remove "+scheduleInfoArrayList.get(getAdapterPosition()).getSchedule(),Toast.LENGTH_SHORT).show();
-                            removeItemView(getAdapterPosition());
-                            questionDialog.dismiss();
-                        }
-                    });
-
-                    Button cancle = (Button)questionDialog.findViewById(R.id.cancle);
-                    cancle.setOnClickListener(new Button.OnClickListener(){
-                        @Override
-                        public void onClick(View v){
-                            questionDialog.dismiss();
-                        }
-                    });
-
-                    questionDialog.show();
-                    */
-                    Toast.makeText(sContext,"remove "+scheduleInfoArrayList.get(getAdapterPosition()).getSchedule(),Toast.LENGTH_SHORT).show();
-                    removeItemView(getAdapterPosition());
-                    return false;
-                }
-            });
         }
     }
 
@@ -101,9 +86,4 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return scheduleInfoArrayList.size();
     }
 
-    private void removeItemView(int position){
-        scheduleInfoArrayList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position,scheduleInfoArrayList.size());
-    }
 }

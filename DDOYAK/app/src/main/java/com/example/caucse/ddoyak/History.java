@@ -31,6 +31,10 @@ public class History {
         return day;
     }
 
+    public String getDays(){
+        return (year+"년 "+month+"월 "+day+"일");
+    }
+
     public String getTime(){
         String time = hour+"시 "+min+"분";
         return time;

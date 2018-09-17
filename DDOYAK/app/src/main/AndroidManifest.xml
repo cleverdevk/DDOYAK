@@ -29,6 +29,9 @@
         <activity android:name=".DDoyakActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".CalendarMainActivity" />
+        <activity android:name=".MedicineList"/>
+        <activity android:name=".AddSchedule_Activity"/>
+        <activity android:name=".RemoveItem"/>
 
         <receiver
             android:name=".AlarmReceiver"

@@ -13,6 +13,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        MyFirebaseInstanceIdService fiid = new MyFirebaseInstanceIdService();
+        fiid.onTokenRefresh();
+
+
         ImageButton takeButton = (ImageButton)findViewById(R.id.take);
         takeButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
@@ -27,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         alarmButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(),MedicineInfo.class);
+                Intent intent = new Intent(getApplicationContext(),MedicineList.class);
                 startActivity(intent);
             }
         });

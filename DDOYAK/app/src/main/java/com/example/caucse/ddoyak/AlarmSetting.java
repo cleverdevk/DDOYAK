@@ -64,6 +64,7 @@ public class AlarmSetting extends AppCompatActivity{
         final ViewAdapter adapter = new ViewAdapter(getApplicationContext(),data);
         recyclerView.setAdapter(adapter);
 
+        Toast.makeText(getApplicationContext(), "처음 복용 날짜를 선택하세요", Toast.LENGTH_SHORT).show();
         new DatePickerDialog(AlarmSetting.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH),calendar_time.get(Calendar.DAY_OF_MONTH)).show();
 
         Intent intent =getIntent();
@@ -128,7 +129,7 @@ public class AlarmSetting extends AppCompatActivity{
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(), servicePendings[count+1]);
         Log.d("TAG", "setAlarm: 보냅니당");
 
-        Toast.makeText(getBaseContext(),(num++)+"회 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(),(num++)+"번째 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
         DBHelper dbHelper = new DBHelper(getApplicationContext(), "DB.db",null,1);
 
         int dayOfMonth = calendar_time.get(Calendar.DAY_OF_MONTH);

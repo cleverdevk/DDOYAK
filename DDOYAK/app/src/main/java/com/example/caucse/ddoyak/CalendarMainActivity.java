@@ -85,6 +85,8 @@ public class CalendarMainActivity extends AppCompatActivity{
                     count++;
                 }
                 adapter.notifyDataSetChanged();
+                gridAdapter.notifyDataSetChanged();
+                gridView.setAdapter(gridAdapter);
             }
 
             @Override
