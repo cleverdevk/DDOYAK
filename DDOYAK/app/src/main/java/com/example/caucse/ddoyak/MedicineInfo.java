@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MedicineInfo extends AppCompatActivity {
 
@@ -82,6 +83,8 @@ public class MedicineInfo extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "약 정보를 저장했습니다.", Toast.LENGTH_SHORT);
+                toast.show();
                 Intent intent = new Intent(MedicineInfo.this, AlarmSetting.class);
                 intent.putExtra("info",info.getText().toString());
                 intent.putExtra("oneday",String.valueOf(onedayNum));

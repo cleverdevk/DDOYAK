@@ -6,13 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import static com.example.caucse.ddoyak.AlarmSetting.MediRef;
 
 public class DBHelper extends SQLiteOpenHelper {
-
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference MediRef = database.getReference("DOSE");
 
     private static final String KEY_ID = "id";
     private static final String KEY_USERID = "user_id";
