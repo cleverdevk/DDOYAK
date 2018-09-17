@@ -13,6 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference MediRef = database.getReference("DOSE");
 
+    //내부 DB의 필드명 지정
     private static final String KEY_ID = "id";
     private static final String KEY_USERID = "user_id";
     private static final String KEY_TIME = "time";
@@ -60,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = db.rawQuery("SELECT * FROM ALARMTIMES", null);
+        //cursor를 이동하며 필드마다 값을 얻는다.
         while(cursor.moveToNext()){
             result += cursor.getString(0)
                     + " : "
@@ -71,6 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    //내부 DB의 데이터를 fcm realtime database에 올리기
     public void writeNewData(String info) {
         SQLiteDatabase db = this.getReadableDatabase();
         int i=0;

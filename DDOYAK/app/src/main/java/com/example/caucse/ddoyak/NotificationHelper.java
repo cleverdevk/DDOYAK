@@ -18,6 +18,7 @@ public class NotificationHelper extends ContextWrapper {
         createChannels();
     }
 
+    //CHANNEL initialize
     private void createChannels(){
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription("복용 알림 채널");
@@ -29,12 +30,14 @@ public class NotificationHelper extends ContextWrapper {
         getManager().createNotificationChannel(channel);
     }
 
+    //시스템서비스를 이용하여 manager 객체 반환
     public NotificationManager getManager(){
         if(manager == null)
             manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         return manager;
     }
 
+    //Notification Builder를 통해 알림의 기본 UI 설정
     public Notification.Builder getChannelNotification(String title, String body){
         return new Notification.Builder(getApplicationContext(),CHANNEL_ID)
                 .setContentText(body)

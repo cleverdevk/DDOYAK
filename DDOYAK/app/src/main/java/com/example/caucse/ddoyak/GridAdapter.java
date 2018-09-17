@@ -18,8 +18,8 @@ import java.util.Calendar;
 public class GridAdapter extends BaseAdapter {
 
     Context context;
-    LinearLayout linear1;
-    TextView tv;
+    LinearLayout linear1;   // 복용 circle, 미복용 triangle 표시하기 위한 레이아웃
+    TextView tv;    //일 표시 tv
     String packName;
 
     String medicine_taken = "takencircle";
@@ -28,7 +28,6 @@ public class GridAdapter extends BaseAdapter {
     public int nottaken_resID;
 
     int layout;
-    //임시 text OOX
     LayoutInflater inflater;
 
     private MonthItem[] items;
@@ -41,8 +40,7 @@ public class GridAdapter extends BaseAdapter {
     int startDay;
 
     Calendar calendar;
-    private int selectedPosition = -1;
-
+    private int selectedPosition = -1;  //selectedPosition 초기화
 
     public GridAdapter(Context context) {
         super();
@@ -58,6 +56,7 @@ public class GridAdapter extends BaseAdapter {
 
     }
 
+    //MonthItem 42칸 초기화
     private void init() {
         items = new MonthItem[7 * 6];
 
@@ -66,6 +65,7 @@ public class GridAdapter extends BaseAdapter {
         resetDayNumbers();
     }
 
+    //해당 날짜의 연,월,일, 해당 달의 첫째날, 마지막날 지정
     private void recalculate() {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
 
@@ -78,6 +78,7 @@ public class GridAdapter extends BaseAdapter {
         startDay = getFirstDayOfWeek();
     }
 
+    //해당 월의 첫째 날에 따라 result값(0~6) 지정
     private int getFirstDay(int dayOfWeek) {
         int result = 0;
         if (dayOfWeek == Calendar.SUNDAY) {
@@ -110,6 +111,7 @@ public class GridAdapter extends BaseAdapter {
         }
     }
 
+    //월에 따른 말일 지정(31일, 30일)
     private int getMonthLastDay(int curYear, int curMonth) {
         switch (curMonth) {
             case 0:
@@ -127,6 +129,7 @@ public class GridAdapter extends BaseAdapter {
                 return (30);
 
             default:
+                //윤년에 따른 4월의 말일 계산
                 if (((curYear % 4 == 0) && (curYear % 100 != 0)) || (curYear % 400 == 0)) {
                     return (29);
                 } else {
@@ -136,6 +139,7 @@ public class GridAdapter extends BaseAdapter {
         }
     }
 
+    //해당 달의 날짜는 dayNumber로, 전&후 달의 날짜는 overNumber로 지정
     private void resetDayNumbers() {
         int set = 1;
         for (int i = 0; i < 42; i++) {
@@ -181,43 +185,38 @@ public class GridAdapter extends BaseAdapter {
         }
     }
 
+    //복용(circle) 미복용(triangle) 여부를 날마다 그림으로 표시
     public void UpdateImageonCalendar(int position) {
         MonthItem item = (MonthItem) CalendarMainActivity.gridAdapter.getItem(position);
         int curDay = item.getDay();
-        int perDayCount = 0;
-        packName = context.getPackageName();
+        //drawble로부터 circle, triangle 이미지 얻어오기
         taken_resID = context.getResources().getIdentifier(medicine_taken, "drawable", packName);
         nottaken_resID = context.getResources().getIdentifier(medicine_not_taken, "drawable", packName);
+        packName = context.getPackageName();
 
+        //set circle image
         ImageView takenimage = new ImageView(context);
         takenimage.setImageResource(taken_resID);
         takenimage.setAdjustViewBounds(true);
 
+        //set triangle image
         ImageView nottakenimage = new ImageView(context);
         nottakenimage.setImageResource(nottaken_resID);
         nottakenimage.setAdjustViewBounds(true);
 
         linear1.removeAllViews();
 
-
-        //해당 날에 몇 회분 복용해야 하는지(동그라미 몇개 필요한지) perDayCount로 받기
-        for (int k = 0; k < CalendarMainActivity.data.size(); k++) {
-            if ((Integer.parseInt(CalendarMainActivity.data.get(k).getYear()) == curYear)
-                    && (Integer.parseInt(CalendarMainActivity.data.get(k).getMonth()) == (curMonth) + 1)
-                    && (Integer.parseInt(CalendarMainActivity.data.get(k).getDay()) == curDay))
-                perDayCount++;
-        }
-
-
         for (int i = 0; i < CalendarMainActivity.data.size(); i++) {
+            //해당 날짜의 복용&미복용 데이터 얻어오기
             if ((Integer.parseInt(CalendarMainActivity.data.get(i).getYear()) == curYear)
                     && (Integer.parseInt(CalendarMainActivity.data.get(i).getMonth()) == (curMonth) + 1)
                     && (Integer.parseInt(CalendarMainActivity.data.get(i).getDay()) == curDay)) {
-
                 if (Integer.parseInt(CalendarMainActivity.data.get(i).getCheck()) == 1){
+                    //checkingValue가 1이면 linear1.addView를 통한 circle 이미지 띄우기
                     item.setCheckingValue(1);//복용
                     linear1.addView(takenimage, 25, 25);}
                 else if (Integer.parseInt(CalendarMainActivity.data.get(i).getCheck()) == 0){
+                    //checkingValue가 0이면 linear1.addView를 통한 triangle 이미지 띄우기
                     item.setCheckingValue(0);//미복용
                     linear1.addView(nottakenimage, 25, 25);}
                 else
@@ -229,28 +228,25 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        //view가 최종적으로 띄울 MonthItemView임
+        //view가 최종적으로 띄울 MonthItemView
         if (view == null) {
             view = inflater.inflate(layout, null);
         }
 
-        tv = (TextView) view.findViewById(R.id.day_num);
-        linear1 = (LinearLayout) view.findViewById(R.id.linear1);
+        tv = (TextView) view.findViewById(R.id.day_num);    //몇일인지 띄울 textview
+        linear1 = (LinearLayout) view.findViewById(R.id.linear1);   //복용 미복용 이미지 띄울 linearlayout
 
-
-        GridView.LayoutParams params = new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 160);
-
-        int rowIndex = position / countColumn;
         int columnIndex = position % countColumn;
 
-        //여기서 setItem!!!!
-        setItem(items[position]);
-        UpdateImageonCalendar(position);
+        setItem(items[position]);   //일별 날짜 및 색 지정
+        UpdateImageonCalendar(position);    // 복용 현황 이미지들 지정
 
+        GridView.LayoutParams params = new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 160);
         view.setLayoutParams(params);
         view.setPadding(2, 2, 2, 2);
 
         tv.setGravity(Gravity.LEFT);
+        //요일에 따른 색 지정
         if (columnIndex == 0) {
             tv.setTextColor(Color.RED);
         } else if (columnIndex == 6) {
@@ -259,6 +255,7 @@ public class GridAdapter extends BaseAdapter {
             tv.setTextColor(Color.BLACK);
         }
 
+        //클릭했을 때 색 지정
         if (position == getSelectedPosition()) {
             view.setBackgroundColor(Color.rgb(242, 203, 97));
         } else if (items[position].getDay() == 0) {
@@ -270,6 +267,7 @@ public class GridAdapter extends BaseAdapter {
         return view;
     }
 
+    //이전 달 클릭했을 시
     public void setPreviousMonth() {
         calendar.add(Calendar.MONTH, -1);
         recalculate();
@@ -277,6 +275,7 @@ public class GridAdapter extends BaseAdapter {
         selectedPosition = -1;
     }
 
+    //다음 달 클릭했을 시
     public void setNextMonth() {
         calendar.add(Calendar.MONTH, 1);
         recalculate();
