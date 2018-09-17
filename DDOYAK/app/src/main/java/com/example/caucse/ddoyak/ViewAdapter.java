@@ -14,6 +14,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
     private ArrayList<Time> data;
     private Context context;
 
+    //ViewAdapter 생성자
     public ViewAdapter(Context context, ArrayList<Time> data){
         this.data = data;
         this.context = context;
@@ -26,8 +27,8 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
 
-            number = (TextView) v.findViewById(R.id.number);
-            time = (TextView) v.findViewById(R.id.listText);
+            number = (TextView) v.findViewById(R.id.number); //n번째 알람
+            time = (TextView) v.findViewById(R.id.listText); //n시 n분
         }
     }
 
@@ -35,14 +36,14 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHolder> {
         data = myDataset;
     }
 
-    //뷰홀더
+    //ViewHolder 생성
     @Override
     public ViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new ViewHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    // ViewHolder Update
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ViewHolder myHolder = (ViewHolder) holder;

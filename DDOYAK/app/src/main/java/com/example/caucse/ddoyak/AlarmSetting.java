@@ -50,10 +50,10 @@ public class AlarmSetting extends AppCompatActivity{
 
         final DBHelper dbHelper = new DBHelper(getApplicationContext(),"DB.db",null,1);
 
-        //alarmManager, calendar_time initialize
         alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         calendar_time = Calendar.getInstance();
 
+        //recyclerView 초기화
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -63,9 +63,11 @@ public class AlarmSetting extends AppCompatActivity{
         final ViewAdapter adapter = new ViewAdapter(getApplicationContext(),data);
         recyclerView.setAdapter(adapter);
 
+        //처음 복용 날짜 선택
         Toast.makeText(getApplicationContext(), "처음 복용 날짜를 선택하세요", Toast.LENGTH_SHORT).show();
         new DatePickerDialog(AlarmSetting.this, dateSetListener, calendar_time.get(Calendar.YEAR), calendar_time.get(Calendar.MONTH),calendar_time.get(Calendar.DAY_OF_MONTH)).show();
 
+        //MedicineInfo에서 data 받아오기
         Intent intent =getIntent();
         info = intent.getStringExtra("info");
         onedayNum = intent.getStringExtra("oneday");
@@ -79,7 +81,7 @@ public class AlarmSetting extends AppCompatActivity{
         save_data_btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(count<Integer.parseInt(onedayNum)) {
+                if(count<Integer.parseInt(onedayNum)) { //알람 설정이 끝날 때까지 시간 설정
                     timePicker = (TimePicker) findViewById(R.id.timePicker);
 
                     calendar_time.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
@@ -89,10 +91,12 @@ public class AlarmSetting extends AppCompatActivity{
                     hour = calendar_time.get(Calendar.HOUR_OF_DAY);
                     min = calendar_time.get(Calendar.MINUTE);
                     Time time = new Time(hour, min);
-                    data.add(time);
-                    adapter.notifyDataSetChanged();
+                    data.add(time); //time data에 입력
+                    adapter.notifyDataSetChanged(); //adapter 변경
 
+                    //알람 설정 method
                     setAlarm();
+
                     if(num<=Integer.parseInt(onedayNum))
                         textView.setText(num + "번째 알람 설정");
                     else
@@ -108,7 +112,10 @@ public class AlarmSetting extends AppCompatActivity{
         finish_setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //fcm db에 데이터 입력
                 dbHelper.writeNewData(info);
+
+                //HomeActivity로 이동
                 Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(intent);
             }
@@ -123,24 +130,29 @@ public class AlarmSetting extends AppCompatActivity{
         int N = Integer.parseInt(onedayNum);
         int M = Integer.parseInt(dayNum);
 
+        //알람 설정
         PendingIntent[] servicePendings = new PendingIntent[100];
         servicePendings[count+1]=PendingIntent.getBroadcast(AlarmSetting.this, count+1, intent, PendingIntent.FLAG_UPDATE_CURRENT );
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar_time.getTimeInMillis(), servicePendings[count+1]);
 
+        //알람 시간 띄워주기
         Toast.makeText(getBaseContext(),(num++)+"번째 알람 설정: "+ calendar_time.get(Calendar.HOUR_OF_DAY) +":" + calendar_time.get(Calendar.MINUTE),Toast.LENGTH_SHORT).show();
         DBHelper dbHelper = new DBHelper(getApplicationContext(), "DB.db",null,1);
 
         int dayOfMonth = calendar_time.get(Calendar.DAY_OF_MONTH);
+        //한번 알람 설정 시 이후 n일치 data도 설정
         for(int k=0;k<M;k++) {
             calendar_time.set(Calendar.DAY_OF_MONTH,dayOfMonth++);
             String time = simpleDateFormat.format(calendar_time.getTime());
             dbHelper.update(info, time, sqlite_id + k * N);
         }
+        //해당 날짜로 reset
         calendar_time.set(Calendar.DAY_OF_MONTH,dayOfMonth-M);
         sqlite_id++;
         count++;
     }
 
+    //처음 복용 날짜로 calendar 설정
     DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {

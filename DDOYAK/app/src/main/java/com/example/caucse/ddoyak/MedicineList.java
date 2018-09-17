@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,7 @@ import java.util.StringTokenizer;
 
 public class MedicineList extends AppCompatActivity {
 
-    Button next;
+    ImageButton next;
     int count;
 
     RecyclerView medicineView;
@@ -77,7 +78,7 @@ public class MedicineList extends AppCompatActivity {
             }
         });
 
-        next = (Button) findViewById(R.id.medicine_plus);
+        next = (ImageButton) findViewById(R.id.medicine_plus);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

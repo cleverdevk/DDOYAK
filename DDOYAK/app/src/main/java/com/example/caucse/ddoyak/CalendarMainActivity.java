@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class CalendarMainActivity extends AppCompatActivity{
+
     TextView month_tv;
     Button prev_btn;
     Button next_btn;
@@ -42,6 +43,7 @@ public class CalendarMainActivity extends AppCompatActivity{
     int curDay;
     int count = 0;
 
+    //해당 년월 text 설정
     private void setMonthText(){
         curYear = gridAdapter.getCurYear();
         curMonth = gridAdapter.getCurMonth();
@@ -51,10 +53,8 @@ public class CalendarMainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("TAG", "onCreate: ONCREATE 들어옴");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_activity_main);
-        Log.d("TAG", "onCreate: 레이아웃들어옴");
 
         checkingView = (RecyclerView) findViewById(R.id.checking_view);
         checkingView.setHasFixedSize(true);
@@ -63,17 +63,21 @@ public class CalendarMainActivity extends AppCompatActivity{
 
         adapter = new CheckingAdapter(getApplicationContext(), checkingData);
 
+        //data 모두 삭제
         data.clear();
-        Log.d("TAG", "onCreate: 데이터클리어");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 count=0;
+
+                //History reference 에 해당되는 data 모두 받아오기
                 for(DataSnapshot historyData : dataSnapshot.getChildren()){
-                    String history = historyData.getValue().toString();
+                    String history = historyData.getValue().toString(); //String 형식으로 하나하나 data 받아오기
                     StringTokenizer st = new StringTokenizer(history,"#");
                     String year, month, day, hour, min, check, name;
+
+                    //token #으로 구분된 data 가공하기
                     year = st.nextToken();
                     month=st.nextToken();
                     day = st.nextToken();
@@ -81,6 +85,8 @@ public class CalendarMainActivity extends AppCompatActivity{
                     min = st.nextToken();
                     check = st.nextToken();
                     name = st.nextToken();
+
+                    //data에 History class 형식으로 add
                     data.add(new History(year, month, day, hour, min, check, name));
                     count++;
                 }
@@ -88,7 +94,6 @@ public class CalendarMainActivity extends AppCompatActivity{
                 gridAdapter.notifyDataSetChanged();
                 gridView.setAdapter(gridAdapter);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -99,9 +104,7 @@ public class CalendarMainActivity extends AppCompatActivity{
         gridAdapter = new GridAdapter(getApplicationContext(), R.layout.month_item);
         gridView.setAdapter(gridAdapter);
 
-        Log.d("TAG", "onCreate: 그리드뷰");
-
-
+        //gridView item 클릭 시 실행
         gridView.setOnDataSelectionListener(new OnDataSelectionListener() {
             @Override
             public void onDataSelected(AdapterView parent, View v, int position, long id) {
@@ -109,11 +112,10 @@ public class CalendarMainActivity extends AppCompatActivity{
             }
         });
 
-        Log.d("TAG", "onCreate: 그리드뷰 어댑터");
-
         month_tv = findViewById(R.id.month_tv);
         setMonthText();
 
+        //이전 달 버튼 클릭 시 실행
         prev_btn = findViewById(R.id.prev_btn);
         prev_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +126,7 @@ public class CalendarMainActivity extends AppCompatActivity{
             }
         });
 
-
+        //다음 달 버튼 클릭 시 실행
         next_btn = findViewById(R.id.next_btn);
         next_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,18 +138,20 @@ public class CalendarMainActivity extends AppCompatActivity{
         });
     }
 
+    //gridView Adapter Update
     public void UpdateAdapter(int position){
         MonthItem item = (MonthItem) gridAdapter.getItem(position);
         curDay = item.getDay();
         checkingData.clear();
+        //해당 년월일에 맞는 복용여부 data add
         for(int i=0;i<count;i++) {
             if (Integer.parseInt(data.get(i).getYear()) == curYear)
                 if (Integer.parseInt(data.get(i).getMonth()) == (curMonth) + 1)
                     if (Integer.parseInt(data.get(i).getDay()) == curDay)
                         checkingData.add(data.get(i));
         }
+
+        //adapter set
         checkingView.setAdapter(adapter);
     }
-
-
 }

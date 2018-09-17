@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,6 +19,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             app:srcCompat="@drawable/yellowbar" />
+
         <TextView
             android:id="@+id/scheduletitle"
             android:layout_width="wrap_content"
@@ -79,7 +79,6 @@
                 android:textSize="25dp"
                 android:layout_marginEnd="25dp"
                 android:layout_weight="3"/>
-
         </LinearLayout>
 
         <LinearLayout
@@ -105,9 +104,7 @@
                 android:textSize="25dp"
                 android:layout_marginEnd="25dp"
                 android:layout_weight="3"/>
-
         </LinearLayout>
-
 
         <Button
             android:id="@+id/remove"

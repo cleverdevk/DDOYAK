@@ -1,5 +1,6 @@
 package com.example.caucse.ddoyak;
 
+//복용 여부를 판단하는 data 형식 class
 public class History {
     private String year;
     private String month;

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +36,6 @@
                     android:background="@drawable/home_button2selector"
                     app:srcCompat="@drawable/button2"/>
 
-
                 <ImageButton
                     android:id="@+id/schedule"
                     android:layout_width="126dp"
@@ -47,7 +45,6 @@
                     android:scaleType="centerCrop"
                     android:background="@drawable/home_button3selector"
                     app:srcCompat="@drawable/button3" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -77,7 +74,6 @@
                     android:background="@android:color/transparent"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/chicken" />
-
             </LinearLayout>
 
         </LinearLayout>

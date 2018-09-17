@@ -8,11 +8,11 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 public class GridView extends android.widget.GridView {
+
     private OnDataSelectionListener selectionListener;
     GridAdapter adapter;
-    int curYear;
-    int curMonth;
 
+    //GridView 생성자
     public GridView(Context context) {
         super(context);
         init();
@@ -23,6 +23,7 @@ public class GridView extends android.widget.GridView {
         init();
     }
 
+    //GridView 설정 초기화
     private void init() {
         setBackgroundColor(Color.WHITE);
         setVerticalSpacing(1);
@@ -30,6 +31,7 @@ public class GridView extends android.widget.GridView {
         setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
         setNumColumns(7);
 
+        //모든 item들의 click listener 설정
         setOnItemClickListener(new OnItemClickAdapter());
     }
 
@@ -47,20 +49,19 @@ public class GridView extends android.widget.GridView {
         }
     }
 
+    //adapter 설정
     public void setAdapter(BaseAdapter adapter) {
         super.setAdapter(adapter);
         this.adapter = (GridAdapter) adapter;
     }
 
+    //adapter 반환
     public BaseAdapter getAdapter() {
         return (BaseAdapter) super.getAdapter();
     }
 
+    //item이 선택되었는지 확인해주는 listener 설정
     public void setOnDataSelectionListener(OnDataSelectionListener listener) {
         this.selectionListener = listener;
-    }
-
-    public OnDataSelectionListener getOnDataSelectionListener() {
-        return selectionListener;
     }
 }

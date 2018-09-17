@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineHolder>{
 
     ArrayList<MedicineData> data;
-
     private Context context;
 
+    //MedicineAdapter 생성자
     public MedicineAdapter(Context context, ArrayList<MedicineData> data){
         this.data = data;
         this.context = context;
@@ -28,9 +28,9 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         public MedicineHolder(View v) {
             super(v);
 
-            medicineName =(TextView) v.findViewById(R.id.medicine_name);
-            startDay= (TextView) v.findViewById(R.id.startDay);
-            finishDay = (TextView) v.findViewById(R.id.finishDay);
+            medicineName =(TextView) v.findViewById(R.id.medicine_name); //약 이름
+            startDay= (TextView) v.findViewById(R.id.startDay); //복용 첫 날짜
+            finishDay = (TextView) v.findViewById(R.id.finishDay); //복용 마지막 날짜
         }
     }
 
@@ -38,14 +38,14 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         this.data = data;
     }
 
-    //뷰홀더
+    //MedicineHolder 생성
     @Override
     public MedicineAdapter.MedicineHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.medicine_item, parent, false);
         return new MedicineHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    //MedicineHolder Update
     @Override
     public void onBindViewHolder(MedicineHolder holder, int position) {
         MedicineHolder myHolder = (MedicineHolder) holder;

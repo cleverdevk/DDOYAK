@@ -14,6 +14,7 @@ public class CheckingAdapter extends RecyclerView.Adapter<CheckingAdapter.Checki
     ArrayList<History> data;
     private Context context;
 
+    //CheckingAdapter 생성자
     public CheckingAdapter(Context context, ArrayList<History> data){
         this.data = data;
         this.context = context;
@@ -27,9 +28,9 @@ public class CheckingAdapter extends RecyclerView.Adapter<CheckingAdapter.Checki
         public CheckingHolder(View v) {
             super(v);
 
-            checkName =(TextView) v.findViewById(R.id.checking_name);
-            checkTime= (TextView) v.findViewById(R.id.checking_time);
-            checkText = (TextView) v.findViewById(R.id.checking_text);
+            checkName =(TextView) v.findViewById(R.id.checking_name); //약 이름
+            checkTime= (TextView) v.findViewById(R.id.checking_time); //복용 시간
+            checkText = (TextView) v.findViewById(R.id.checking_text); //복용 여부
         }
     }
 
@@ -37,21 +38,22 @@ public class CheckingAdapter extends RecyclerView.Adapter<CheckingAdapter.Checki
         this.data = data;
     }
 
-    //뷰홀더
+    //ViewHolder 생성
     @Override
     public CheckingAdapter.CheckingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.checking_item, parent, false);
         return new CheckingHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    //ViewHolder Update
     @Override
     public void onBindViewHolder(CheckingHolder holder, int position) {
         CheckingHolder myHolder = (CheckingHolder) holder;
 
         myHolder.checkName.setText(data.get(position).getName());
         myHolder.checkTime.setText(data.get(position).getTime());
-        if(Integer.parseInt(data.get(position).getCheck())==0)
+
+        if(Integer.parseInt(data.get(position).getCheck())==0) //미복용 시
             myHolder.checkText.setText("미복용");
         else
             myHolder.checkText.setText("복용 완료");
@@ -61,4 +63,5 @@ public class CheckingAdapter extends RecyclerView.Adapter<CheckingAdapter.Checki
     public int getItemCount() {
         return data.size();
     }
+
 }
