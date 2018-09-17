@@ -13,13 +13,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        MyFirebaseInstanceIdService fiid = new MyFirebaseInstanceIdService();
+        fiid.onTokenRefresh();
+
+
         ImageButton takeButton = (ImageButton)findViewById(R.id.take);
         takeButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(HomeActivity.this, "복용 현황",Toast.LENGTH_SHORT).show();
-                //Intent intent = new Intent(getApplicationContext(),nextActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),CalendarMainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -27,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
         alarmButton.setOnClickListener(new ImageButton.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(),MedicineInfo.class);
+                Intent intent = new Intent(getApplicationContext(),MedicineList.class);
                 startActivity(intent);
             }
         });

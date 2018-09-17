@@ -50,8 +50,6 @@ public class GridView extends android.widget.GridView {
     public void setAdapter(BaseAdapter adapter) {
         super.setAdapter(adapter);
         this.adapter = (GridAdapter) adapter;
-        //            this.adapter.UpdateImageonCalendar(i);
-        //}
     }
 
     public BaseAdapter getAdapter() {

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -20,7 +19,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         this.context = context;
         helper = new NotificationHelper(context);
 
-        Log.d("ddoyak", "알람고고고");
         Toast.makeText(context, "복용시간 알림",Toast.LENGTH_SHORT).show();
 
         try{
@@ -28,7 +26,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent[] pendingIntent = new PendingIntent[100];
             pendingIntent[count+1] = PendingIntent.getActivity(context,count+1,intent, PendingIntent.FLAG_UPDATE_CURRENT);
             pendingIntent[count+1].send();
-            Log.d("ddoyak", "pendingintent띄워줘여");
             count++;
         }catch (PendingIntent.CanceledException e){
             e.printStackTrace();

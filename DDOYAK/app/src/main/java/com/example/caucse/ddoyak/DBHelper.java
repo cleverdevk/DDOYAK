@@ -4,11 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import static com.example.caucse.ddoyak.AlarmSetting.MediRef;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference MediRef = database.getReference("DOSE");
 
     private static final String KEY_ID = "id";
     private static final String KEY_USERID = "user_id";
@@ -25,27 +28,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + "ALARMTIMES");
-
-        // Create tables again
         onCreate(db);
     }
 
+    //db 데이터 삽입
     public void insert(String user_id, String time){
-        Log.d("TAG", "insert: sqlite conncection start");
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO ALARMTIMES VALUES(null,' " + user_id + "','" + time + "');");      //작은 따옴표로 안감싸면 오류남, 감싸면 해당 data가 아니라 user_id, time이 들어감 update로 해야해서 그런가?
-        Log.d("TAG", "insert: alarm data success");
+        db.execSQL("INSERT INTO ALARMTIMES VALUES(null,' " + user_id + "','" + time + "');");
         db.close();
     }
 
+    //id에 따라 삽입
     public void update(String user_id, String time, int sqlite_id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE ALARMTIMES SET time = '" + time + "', user_id = '" + user_id + "' WHERE id ='" + sqlite_id + "';");
         db.close();
     }
 
+    //삭제
     public void delete(){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM ALARMTIMES;");
@@ -53,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //모든 데이터 얻어와서 띄우기
     public String getAllData(){
         SQLiteDatabase db = getReadableDatabase();
         String result = "";

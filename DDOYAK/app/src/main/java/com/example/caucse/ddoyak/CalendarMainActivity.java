@@ -96,7 +96,7 @@ public class CalendarMainActivity extends AppCompatActivity{
         });
 
         gridView = (GridView)findViewById(R.id.gridView);
-        gridAdapter = new GridAdapter(getApplicationContext(), R.layout.month_item, "OOX");
+        gridAdapter = new GridAdapter(getApplicationContext(), R.layout.month_item);
         gridView.setAdapter(gridAdapter);
 
         Log.d("TAG", "onCreate: 그리드뷰");

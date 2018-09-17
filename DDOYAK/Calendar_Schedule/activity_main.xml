@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#ffffffff"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:background="#FFE4C4"
+        android:layout_height="45dp"
+        android:layout_width="match_parent">
+
+        <Button
+            android:layout_height="45dp"
+            android:layout_width="70dp"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:text="Prev"
+            android:textStyle = "bold"
+            android:textSize="14dp"
+            android:textAlignment="gravity"
+            android:id="@+id/monthPrevious"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="224dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/monthText"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            android:text="MonthView"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:layout_height="45dp"
+            android:layout_width="70dp"
+            android:gravity="center"
+            android:text="Next"
+            android:textStyle = "bold"
+            android:textSize="14dp"
+            android:textAlignment="gravity"
+            android:id="@+id/monthNext"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <GridView
+        android:background="#D2B48C"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/monthView"
+        android:verticalSpacing="1dp"
+        android:numColumns="7"
+        android:horizontalSpacing="1dp"/>
+
+</LinearLayout>

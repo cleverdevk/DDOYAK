@@ -29,7 +29,6 @@ public class GridAdapter extends BaseAdapter {
 
     int layout;
     //임시 text OOX
-    String text;
     LayoutInflater inflater;
 
     private MonthItem[] items;
@@ -51,10 +50,9 @@ public class GridAdapter extends BaseAdapter {
         init();
     }
 
-    public GridAdapter(Context context, int layout, String text) {
+    public GridAdapter(Context context, int layout) {
         this.context = context;
         this.layout = layout;
-        this.text = text;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         init();
 
@@ -183,7 +181,6 @@ public class GridAdapter extends BaseAdapter {
         }
     }
 
-    //캘린더 위에 동그라미로 띄우기, int position 함으로써 한 날에만 이 계산 수행하는 것 -- 하루만 계산하기 고려할 필요 없다
     public void UpdateImageonCalendar(int position) {
         MonthItem item = (MonthItem) CalendarMainActivity.gridAdapter.getItem(position);
         int curDay = item.getDay();
@@ -245,7 +242,6 @@ public class GridAdapter extends BaseAdapter {
 
         int rowIndex = position / countColumn;
         int columnIndex = position % countColumn;
-
 
         //여기서 setItem!!!!
         setItem(items[position]);
