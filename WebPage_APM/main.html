@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDOYAK</title>
+<style>
+body {
+    	background-color: white;
+}
+
+h1 {
+    	color: lightblue;
+    	text-align: center;
+}
+
+p {
+    	font-family: verdana;
+    	font-size: 20px;
+	text-align: center;
+}
+
+button {
+	background-color: lightblue;
+	border: none;
+	color: white;
+	padding: 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+div {
+    width: 100px;
+    height: 100px;
+    background: red;
+    position: relative;
+    -webkit-animation: myfirst 4s infinite; /* Safari 4.0 - 8.0 */
+    animation: myfirst 4s infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes myfirst {
+    0%   {left: -100px;}
+    50%  {left: 100px;}
+    100% {left: -100px;}
+}
+
+@keyframes myfirst {
+    0%   {left: -100px;}
+    50%  {left: 100px;}
+    100% {left: -100px;}
+}
+
+</style>
+</head>
+
+
+<body>
+
+<h1>DDOYAK</h1>
+<p>The Alarm System for Medicine Taker</p>
+
+<p>
+	<button class="button" onclick="location.href='send.html'">add</button>
+	<button class="button" onclick="location.href='list.html'">list</button>
+</p>
+<p>
+	<center><div><img src="ddoyak.png" class="plane"></div></center>
+</p>
+
+
+
+</body>
+
+
+</html>

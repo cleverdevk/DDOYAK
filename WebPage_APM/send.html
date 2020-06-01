@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DDOYAK</title>
+<style>
+body {
+	background-color: white;
+}
+h1 {
+	color: lightblue;
+	text-align: center;
+}
+p {
+	font-family: verdana;
+	font-size: 20px;
+	text-align: center;
+}
+
+button {
+	background-color: lightblue;
+	border: none;
+	color: white;
+	padding: 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+form {
+	margin: 0 auto;
+	width: 250px;
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+<h1>ADD</h1>
+	<form action="addData.php" method="post">
+		Name<br>   
+    		<input type="text" name="name">
+    		<br>Morning<br>
+		<input type="time" name="morning">
+		<br>Lunch<br>   
+		<input type="time" name="lunch">
+		<br>Evening<br>	
+		<input type="time" name="evening">
+		<br><br>
+    		<center><button class="button" onclick="alert('new data added');">add</button></center>
+	</form>
+</body>
+</html>
